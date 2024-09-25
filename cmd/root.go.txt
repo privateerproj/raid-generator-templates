@@ -59,11 +59,10 @@ func Execute(version, commitHash, builtAt string) {
 
 func init() {
 	Armory.Tactics = map[string][]raidengine.Strike{
-		"{{ .CategoryIDFriendly }}_Security": { 
-			{{- range .Controls }}
-			{{- $controlID := .IDFriendly }}
-			{{- range $key, $value := .TestRequirements }}
-			Armory.{{ $controlID }}_TR{{ $key }},
+		{{ range $key, $value := .Tactics }}
+		"{{ $key }}": { 
+			{{- range $value }}
+			Armory.{{ . }},
 			{{- end }}
 		{{- end }}
 		},

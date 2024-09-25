@@ -3,5 +3,7 @@ WriteDirectory: test_output
 raids:
   {{ .ServiceName }}:
     tactics: 
-      - {{ .CategoryIDFriendly }}_Taxonomy
-      - {{ .CategoryIDFriendly }}_Security
+      - tlp_red
+      # - tlp_amber
+      # - tlp_green
+      # - tlp_clear
