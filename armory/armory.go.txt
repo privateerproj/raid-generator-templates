@@ -33,7 +33,7 @@ func (a *{{ .ServiceName }}) GetTactics() map[string][]raidengine.Strike {
 
 {{- $ServiceName := .ServiceName }}
 {{- range .Controls }}
-{{- $controlID := .IDFriendly }}
+{{- $controlID := .ID }}
 {{- range .TestRequirements }}
 
 // -----
@@ -49,19 +49,13 @@ func (a *{{ $ServiceName }}) {{ .IDFriendly  }}() (strikeName string, result rai
 		Description: "{{ .Text }}",
 		Message:     "Strike has not yet started.", // This message will be overwritten by subsequent movements
 		DocsURL:     "https://maintainer.com/docs/raids/{{ $ServiceName }}",
-		ControlID:   "CCC-Taxonomy-1",
+		ControlID:   "{{ $controlID}}",
 		Movements:   make(map[string]raidengine.MovementResult),
 	}
 
 	{{- $testID := printf "%s_T01" .IDFriendly }}
 
-	{{ $testID }}_Result := {{ $testID }}()
-	result.Movements["{{ $testID }}"] = {{ $testID }}_Result
-	if !{{ $testID }}_Result.Passed {
-		result.Message = {{ $testID }}_Result.Message
-		return
-	}
-
+	raidengine.ExecuteMovement(&result, {{ $testID }})
 	// TODO: Additional movement calls go here
 
 	return
@@ -69,11 +63,11 @@ func (a *{{ $ServiceName }}) {{ .IDFriendly  }}() (strikeName string, result rai
 
 func {{ $testID }}() (result raidengine.MovementResult) {
 	result = raidengine.MovementResult{
-		Description: "JokerName must be found in the runtime configuration.",
+		Description: "This movement is still under construction",
 		Function:    utils.CallerPath(0),
 	}
 	
-	// TODO: Movement logic goes here
+	// TODO: Use this section to write a single step or test that contributes to {{ $controlID }}
 	return
 }
 {{ end }} {{ end }}

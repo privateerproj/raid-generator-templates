@@ -64,8 +64,8 @@ func init() {
 			{{- range $value }}
 			Armory.{{ . }},
 			{{- end }}
-		{{- end }}
 		},
+		{{- end }}
 	}
 
 	command.SetBase(runCmd) // This initializes the base CLI functionality
