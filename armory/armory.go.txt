@@ -34,27 +34,26 @@ func (a *{{ .ServiceName }}) GetTactics() map[string][]raidengine.Strike {
 {{- $ServiceName := .ServiceName }}
 {{- range .Controls }}
 {{- $controlID := .IDFriendly }}
-{{- range $trKey, $trValue := .TestRequirements }}
-{{- $strikeID := printf "%s_TR%s" $controlID $trKey }}
+{{- range .TestRequirements }}
 
 // -----
-// Strike and Movements for {{ $strikeID }} 
+// Strike and Movements for {{ .IDFriendly }} 
 // -----
 
-// {{ $strikeID }} conforms to the Strike function type
-func (a *{{ $ServiceName }}) {{ $strikeID  }}() (strikeName string, result raidengine.StrikeResult) {
+// {{ .IDFriendly }} conforms to the Strike function type
+func (a *{{ $ServiceName }}) {{ .IDFriendly  }}() (strikeName string, result raidengine.StrikeResult) {
 	// set default return values
-	strikeName = "{{ $strikeID }}"
+	strikeName = "{{ .IDFriendly }}"
 	result = raidengine.StrikeResult{
 		Passed:      false,
-		Description: "{{ $trValue }}",
+		Description: "{{ .Text }}",
 		Message:     "Strike has not yet started.", // This message will be overwritten by subsequent movements
 		DocsURL:     "https://maintainer.com/docs/raids/{{ $ServiceName }}",
 		ControlID:   "CCC-Taxonomy-1",
 		Movements:   make(map[string]raidengine.MovementResult),
 	}
 
-	{{- $testID := printf "%s_T01" $strikeID }}
+	{{- $testID := printf "%s_T01" .IDFriendly }}
 
 	{{ $testID }}_Result := {{ $testID }}()
 	result.Movements["{{ $testID }}"] = {{ $testID }}_Result
