@@ -15,13 +15,6 @@ type {{ .ServiceName }} struct {
 	Results map[string]raidengine.StrikeResult // Optional, allows cross referencing between strikes
 }
 
-// Optionally, retrieve config variables using Viper.
-var user string
-
-func init() {
-	user = viper.GetString("user")
-}
-
 func (a *{{ .ServiceName }}) SetLogger(loggerName string) hclog.Logger {
 	a.Log = raidengine.GetLogger(loggerName, false)
 	return a.Log
@@ -67,7 +60,7 @@ func {{ $testID }}() (result raidengine.MovementResult) {
 		Function:    utils.CallerPath(0),
 	}
 	
-	// TODO: Use this section to write a single step or test that contributes to {{ $controlID }}
+	// TODO: Use this section to write a single step or test that contributes to {{ .IDFriendly }}
 	return
 }
 {{ end }} {{ end }}
